@@ -22,21 +22,21 @@ export const chapterusers = async (req, res) => {
 }
 
 
-export const pageUsers = async (req, res) => {
-  const { name, data } = req.body;
-  console.log(req.body);
-  try {
-    const existingPage = await Page.findOne({ name });
-    if (existingPage) {
-      return res.status(404).json({ message: "Page already exist" })
-    }
-    const newPage = await Page.create({ name, description: data })
-    res.status(200).json({ results: newPage })
-  }
-  catch (error) {
-    res.status(500).json("something wrong...")
-  }
-}
+// export const pageUsers = async (req, res) => {
+//   const { name, data } = req.body;
+//   console.log(req.body);
+//   try {
+//     const existingPage = await Page.findOne({ name });
+//     if (existingPage) {
+//       return res.status(404).json({ message: "Page already exist" })
+//     }
+//     const newPage = await Page.create({ name, description: data })
+//     res.status(200).json({ results: newPage })
+//   }
+//   catch (error) {
+//     res.status(500).json("something wrong...")
+//   }
+// }
 
 
 
@@ -108,4 +108,19 @@ export const editPages=async(req,res)=>
     console.log(error.message);
   }
 }
+
+export const pageUsers= async(req, res) => {
+  const { id: _id } = req.params;
+  const { name,data} = req.body;
+  if(!mongoose.Types.ObjectId.isValid(_id)){
+      return res.status(404).send('chapter unavailable...');
+  }
+  try {
+      const addpage = await post.findByIdAndUpdate( _id, { $addToSet: {'pages': [{ name,description:data }]}})
+      res.status(200).json(addpage)
+  } catch (error) {
+      res.status(400).json('error in updating')
+  }
+}
+
 
