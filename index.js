@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import post from "./routers/Post.js";
-import Page from "./routers/Page.js";
 
  
 
@@ -19,7 +18,6 @@ app.use(cors());
 
 
 app.use("/posts",post);
-app.use("/pages",Page);
 
 
 const PORT=process.env.PORT || 5000
